@@ -1,0 +1,102 @@
+.introduction {
+    text-align: left;
+    background: #fff;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow: 3px 4px 3px #888;
+    padding: 10px 20px 20px;
+    margin-bottom: 20px;
+}
+
+.introduction h2 {
+    line-height: 60px;
+}
+
+.introduction hr {
+    margin-bottom: 15px;
+}
+
+.introduction p {
+    line-height: 26px;
+}
+
+p {
+    text-align: left;
+}
+
+
+
+
+
+.comments {
+    border: 1px dashed #7ca4c1;
+    background-color: #d9edf7;
+    margin: 10px 0px 20px;
+    padding: 10px 20px 20px;
+}
+
+.comments p {
+    line-height: 28px;
+}
+
+
+.send-comments {
+    text-align: left;
+    background: #fff;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow: 3px 4px 3px #888;
+    padding: 10px 20px 20px;
+    margin-bottom: 20px;
+}
+
+.send-comments p {
+    margin: 10px 0;
+}
+
+.send-comments input,
+.send-comments textarea {
+    height: 20px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.send-comments input:focus,
+.send-comments textarea:focus {
+    border-color: #66afe9;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+}
+.send-comments .user-name {
+    width: 30%;
+    margin-right: 5%;
+}
+
+.send-comments .user-name+input {
+    width: 40%;
+}
+
+.send-comments textarea {
+    min-width: 90%;
+    max-width: 95%;
+    min-height: 50px;
+    max-height: 150px;
+}
+
+.send-comments p button {
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.send-comments p button:hover {
+    background-color: #e6e6e6;
+}
+
+.footer p {
+    text-align: center;
+}

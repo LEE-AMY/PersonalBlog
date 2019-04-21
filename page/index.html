@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
     <meta charset="UTF-8">
     <title>个人博客</title>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
+
 <body>
     <header class="header">
         <div class="container">
             <a class="title" href="">我的个人博客 | 技术博客</a>
             <ul class="menu">
-                <li><a href="">首页</a></li>
-                <li><a href="">地图</a></li>
-                <li><a href="">关于</a></li>
-                <li><a href="">留言</a></li>
+                <li><a href="/index.html">首页</a></li>
+                <li><a href="/sitemap.html">地图</a></li>
+                <li><a href="/about.html">关于</a></li>
+                <li><a href="/guestbook.html">留言</a></li>
             </ul>
             <div class="search-bar">
                 <input type="text" placeholder="输入关键词查找">
@@ -24,27 +27,103 @@
     </header>
     <div class="content">
         <div class="content-left">
-            <div class="every-day">
+            <div class="every-day" id="erver_day">
                 <span>每日一句</span>
-                <p>撒大噶萨克的理解国家矿山公司实力的空间</p>
-                <p>--收到的客户给</p>
+                <p v-html="getContent"></p>
             </div>
-            <div class="article-list">
-                <div class="article">
-                    <a href="/" class="article-title">PC端微信(2.6.6.28)防撤回</a>
-                    <p class="article-content">此方法仅限于官网下载的PC版微信2.6.6.28版本。工具：winhex19、pc版微信打开winhex19， 文件->打开，定位并找到微信安装目录中的WeChatWin.dll，打开。点击左侧offset列，使偏移量转为16进制格式显示。点击工具栏中的“转到偏移量”。输入 0024A58E ，确定。自动定位到一个数值：75，其中5以反色（蓝色）光标显示，输入4，使其变为74。保存文件...</p>
-                    <div class="article-foot">发布于2019-02-14 |  浏览(1,328) | Tags：微信</div>
-                </div>
-                <div class="article">
-                    <a href="/" class="article-title">PC端微信(2.6.6.28)防撤回</a>
-                    <p class="article-content">此方法仅限于官网下载的PC版微信2.6.6.28版本。工具：winhex19、pc版微信打开winhex19， 文件->打开，定位并找到微信安装目录中的WeChatWin.dll，打开。点击左侧offset列，使偏移量转为16进制格式显示。点击工具栏中的“转到偏移量”。输入 0024A58E ，确定。自动定位到一个数值：75，其中5以反色（蓝色）光标显示，输入4，使其变为74。保存文件...</p>
-                    <div class="article-foot">发布于2019-02-14 |  浏览(1,328) | Tags：微信</div>
-                </div>
+            <div class="article-list" id="article_list">
 
+                <div class="article" v-for="(item, index) in articleList" :key="item.title+index">
+                    <a :href="item.link" class="article-title">{{item.title}}</a>
+                    <p class="article-content">{{item.content}}</p>
+                    <div class="article-foot">发布于{{item.date}} | 浏览({{item.views}}) | Tags：{{item.tags}}</div>
+                </div>
             </div>
         </div>
-        <div class="content-right"></div>
+        <div class="content-right">
+            <div class="right-moodule" id="random_tags">
+                <div class="right-title">随机标签云</div>
+                <div>
+                    <a href="/" v-for="(tag, index) in tags" :key="tag + index"
+                        v-bind:style="{color: randomColor(),fontSize: randomSize()}">{{ tag }}</a>
+                </div>
+            </div>
+
+            <div class="right-moodule" id="new_hot">
+                <div class="right-title">最近热门</div>
+                <ul>
+                    <li v-for="(temp, index) in titleList" :key="temp.title+index"><a
+                            :href="temp.link">{{temp.title}}</a></li>
+                </ul>
+            </div>
+
+            <div class="right-moodule" id="new_comments">
+                <div class="right-title">最新评论</div>
+                <ul>
+                    <li v-for="(temp, index) in commentList" :key="temp.name + index">
+                        <div>
+                            <span>{{temp.name}}</span>
+                            <span>[{{temp.date}}]</span>
+                        </div>
+                        <p><a href="">{{temp.comment}}</a></p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="right-moodule">
+                <div class="right-title">友情连接</div>
+                <ul class="friend-link">
+                    <li>
+                        <span class="left"><a href="">挨踢茶馆</a></span>
+                        <span class="right"><a href="">挨踢茶馆</a></span>
+                    </li>
+                    <li>
+                        <span class="left"><a href="">阿远博客[技术资源共享]</a></span>
+                        <span class="right"><a href="">挨踢茶馆</a></span>
+                    </li>
+                    <li>
+                        <span class="left"><a href="">挨踢茶馆</a></span>
+                        <span class="right"><a href="">Lizenghai's Blog</a></span>
+                    </li>
+                    <li>
+                        <span class="left"><a href="">挨踢茶馆</a></span>
+                        <span class="right"><a href="">挨踢茶馆</a></span>
+                    </li>
+                    <li>
+                        <span class="left"><a href="">挨踢茶馆</a></span>
+                        <span class="right"><a href="">挨踢茶馆</a></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <footer></footer>
+    <footer class="footer">
+        <ul class="list-inline">
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+            <li><a href="" title="c语言学习,c语言程序设计基础入门">C/C++</a></li>
+        </ul>
+        <p> 
+            Copyright © 2010-2017
+            <a href="/index.html">郑晓个人博客</a>
+            All rights reserved. 由免费开源的
+            <a href="/" rel="external nofollow">WordPress</a>
+            强力驱动.
+            <a href="/" target="_blank" rel="nofollow">鲁ICP备14017955号</a>
+            <a href="/" target="_blank" title="站长统计">站长统计</a>
+        </p>
+    </footer>
+
+    <script src="./js/axios.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/base.js"></script>
+
 </body>
+
 </html>

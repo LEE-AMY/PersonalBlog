@@ -105,3 +105,130 @@ body {
     width: 34%;
     padding: 0px 0px 0px 0px;
 }
+
+.right-moodule {
+    display: inline-block;
+    width: 100%;
+    background-color: #1f1f1f;
+    color: #fff;
+    border-radius: 10px;
+    text-align: left;
+    /* padding: 0 15px 25px 15px; */
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.right-moodule > div.right-title {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    padding: 15px 15px;
+    color: #337ab7;
+    background-color: #191818;
+}
+
+.right-moodule > div,
+.right-moodule > ul {
+    padding: 0 15px 25px 15px;
+}
+
+.right-moodule > div a {
+    display: inline-block;
+    font-size: 14px;
+    color: #337ab7;
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.right-moodule > ul > li {
+    list-style: none;
+    color: #fff;
+    padding: 8px 0;
+    
+}
+
+.right-moodule > ul > li:not(:last-child) {
+    border-bottom: 1px solid #292929;
+}
+
+.right-moodule > ul > li > a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.right-moodule > ul > li > a:hover {
+    color: #337ab7;
+}
+
+.right-moodule > ul > li > div {
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.right-moodule > ul > li > div > span {
+    font-size: 14px;
+    color: #eee;
+    font-weight: 700;
+}
+
+.right-moodule > ul > li > p > a {
+    font-size: 14px;
+    color: #777777;
+    text-decoration: none;
+}
+
+.right-moodule > ul > li > p > a:hover {
+    color: #337ab7;
+}
+
+.right-moodule > ul.friend-link > li {
+    display: flex;
+}
+.right-moodule > ul.friend-link > li >.left {
+    flex: 5.5;
+    margin-right: 20px;
+}
+
+.right-moodule > ul.friend-link > li > .right {
+    flex: 4.5;
+}
+
+.right-moodule > ul.friend-link > li span a {
+    text-decoration: none;
+    color: #eee;
+    font-size: 14px;
+}
+
+.right-moodule > ul.friend-link > li span a:hover {
+    color: #337ab7;
+}
+
+
+.footer {
+    background-color: #191818;
+    width: 100%;
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+
+.footer ul.list-inline {
+    margin-bottom: 15px;
+}
+
+.footer ul.list-inline li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.footer a,
+.footer p  {
+    color: #a2a2a2;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.footer   a:hover {
+    color: #337ab7;
+}

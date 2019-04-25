@@ -1,0 +1,56 @@
+
+
+.blog {
+    background: #fff;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow: 3px 4px 3px #888;
+    padding: 10px 15px;
+}
+
+.blog > div{
+    line-height: 26px;
+}
+
+.blog-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.blog-msg {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #999;
+    margin-bottom: 10px;
+    color: #999
+}
+
+.blog-content {
+    padding: 0px 10px 10px;
+    text-indent: 2rem;
+}
+
+
+
+.comments {
+    border: 1px dashed #7ca4c1;
+    background-color: #d9edf7;
+    margin: 10px 0px 20px;
+    padding: 10px 20px 20px;
+}
+
+.comments p {
+    line-height: 28px;
+    text-align: left
+}
+
+.comments-content {
+    font-size: 14px;
+}
+
+.wrap > p {
+    text-align: left;
+    margin: 20px 0 15px;
+}
+
+

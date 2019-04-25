@@ -65,7 +65,26 @@ function insertTagBlogMapping( tagId, blogId) {
     })
 }
 
+function queryBlogCount( request, response ) {
+    blogDao.queryBlogCount( function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult("success", "查询成功", result));
+        response.end();
+    })
+}
+
+function queryBlogById( request, response ) {
+    var params = url.parse(request.url, true).query;
+    blogDao.queryBlogById( params.bid, function (result){
+        response.writeHead(200);
+        response.write(respUtil.writeResult("success", "查询成功", result));
+        response.end();
+    })
+}
+
 path.set("/editBlog", editBlog);
 path.set("/queryBlogByPage", queryBlogByPage);
+path.set("/queryBlogCount", queryBlogCount);
+path.set("/queryBlogById", queryBlogById);
 
 module.exports.path = path;

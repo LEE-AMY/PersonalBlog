@@ -73,8 +73,10 @@
             <div class="right-moodule" id="random_tags">
                 <div class="right-title">随机标签云</div>
                 <div>
-                    <a href="/" v-for="(tag, index) in tags" :key="tag + index"
-                        v-bind:style="{color: randomColor(),fontSize: randomSize()}">{{ tag }}</a>
+                    <a  v-for="(tag, index) in tags" 
+                        :key="tag.text + index"
+                        v-bind:style="{color: randomColor(),fontSize: randomSize()}"
+                        v-bind:href="tag.link" >{{ tag.text }}</a>
                 </div>
             </div>
 

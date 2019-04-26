@@ -4,19 +4,19 @@ var everyDay = new Vue({
         content: ''
     },
     computed: {
-        getContent: function () {
+        getContent: function() {
             return this.content;
         }
     },
 
-    created: function () {
+    created: function() {
         axios({
             method: "get",
             url: "/queryEveryDay",
 
-        }).then( resp => {
+        }).then(resp => {
             this.content = resp.data.data[0].content;
-        }).catch( err => {
+        }).catch(err => {
             console.log(err)
         })
     }
@@ -42,82 +42,126 @@ var articleList = new Vue({
         ]
     },
     computed: {
-        jumpTo: function () {
-            return function (page) {
-                this.getPage( page, this.pageSize );
+        jumpTo: function() {
+            return function(page) {
+                this.getPage(page, this.pageSize);
             }
         },
         getPage: function() {
-            return function (page, pageSize) {
-                axios({
-                    method: "get",
-                    url: "/queryBlogByPage?page=" + (page - 1) + "&pageSize=" + pageSize,
+            return function(page, pageSize) {
+                var searchUrlParams = location.search.indexOf("?") > -1 ? location.search.split("?")[1].split("&") : "";
+                var tag = '';
+                for (var i = 0; i < searchUrlParams.length; i++) {
+                    if (searchUrlParams[i].split("=")[0] == "tag") {
+                        try {
+                            tag = searchUrlParams[i].split("=")[1]
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    }
+                }
 
-                }).then(resp => {
-                    // console.log(resp)
-                    var result = resp.data.data;
-                    this.articleList = [];
-                    result.forEach( item => {
-                        var tempObj = { };
-                        tempObj.title = item.title;
-                        tempObj.content = item.content;
-                        tempObj.date = item.ctime;
-                        tempObj.views = item.views;
-                        tempObj.tags = item.tags;
-                        tempObj.id = item.id;
-                        tempObj.link = "/blog_detail.html?bid=" + item.id;
-                        this.articleList.push( tempObj );
-                        this.page = page;
+                if (tag == "") { // 不是查询请求
+                    axios({
+                        method: "get",
+                        url: "/queryBlogByPage?page=" + (page - 1) + "&pageSize=" + pageSize,
+
+                    }).then(resp => {
+                        var result = resp.data.data;
+                        this.articleList = [];
+                        result.forEach(item => {
+                            var tempObj = {};
+                            tempObj.title = item.title;
+                            tempObj.content = item.content;
+                            tempObj.date = item.ctime;
+                            tempObj.views = item.views;
+                            tempObj.tags = item.tags;
+                            tempObj.id = item.id;
+                            tempObj.link = "/blog_detail.html?bid=" + item.id;
+                            this.articleList.push(tempObj);
+                            this.page = page;
+                        })
+                    }).catch(err => {
+                        console.log("请求错误")
                     })
-                    // 
-                    
-                }).catch(err => {
-                    console.log("请求错误")
-                })
-                
-                axios({
-                    method: "get",
-                    url: "/queryBlogCount"
-                }).then( resp => {
-                    console.log(resp)
-                    this.count = resp.data.data[0].count;
-                    this.generatePageToolW;
-                }).catch( err => {
-                    console.log("请求错误")
-                })
+
+                    axios({
+                        method: "get",
+                        url: "/queryBlogCount"
+                    }).then(resp => {
+                        this.count = resp.data.data[0].count;
+                        this.generatePageToolW;
+                    }).catch(err => {
+                        console.log("请求错误")
+                    })
+                } else {
+                    axios({
+                        method: "get",
+                        url: "/queryByTag?page=" + (page - 1) + "&pageSize=" + pageSize + "&tag=" + tag,
+
+                    }).then(resp => {
+                        var result = resp.data.data;
+                        this.articleList = [];
+                        result.forEach(item => {
+                            var tempObj = {};
+                            tempObj.title = item.title;
+                            tempObj.content = item.content;
+                            tempObj.date = item.ctime;
+                            tempObj.views = item.views;
+                            tempObj.tags = item.tags;
+                            tempObj.id = item.id;
+                            tempObj.link = "/blog_detail.html?bid=" + item.id;
+                            this.articleList.push(tempObj);
+                            this.page = page;
+                        })
+                    }).catch(err => {
+                        console.log("请求错误")
+                    })
+
+                    axios({
+                        method: "get",
+                        url: "/queryByTagCount?tag=" + tag
+                    }).then(resp => {
+                        this.count = resp.data.data[0].count;
+                        this.generatePageToolW;
+                    }).catch(err => {
+                        console.log("请求错误")
+                    })
+                }
 
 
-                
+
+
             }
         },
 
-        generatePageTool: function () {
+        generatePageTool: function() {
             var nowPage = this.page;
             var pageSize = this.pageSize;
             var totalCount = this.count;
             var result = [];
-            result.push( {text: "<<", page: 1} );
+            result.push({ text: "<<", page: 1 });
 
-            if( nowPage > 2 ) {
-                result.push( {text: nowPage - 2, page: nowPage - 2} )
+            if (nowPage > 2) {
+                result.push({ text: nowPage - 2, page: nowPage - 2 })
             }
 
-            if( nowPage > 1 ) {
-                result.push( {text: nowPage - 1, page: nowPage - 1} )
+            if (nowPage > 1) {
+                result.push({ text: nowPage - 1, page: nowPage - 1 })
             }
 
-            
-            result.push( {text: nowPage, page: nowPage} )
 
-            if( nowPage + 1 <= parseInt((totalCount + pageSize - 1) / pageSize)) {
-                result.push( {text: nowPage + 1, page: nowPage + 1} )
+            result.push({ text: nowPage, page: nowPage })
+
+            if (nowPage + 1 <= parseInt((totalCount + pageSize - 1) / pageSize)) {
+                result.push({ text: nowPage + 1, page: nowPage + 1 })
             }
 
-            if( nowPage + 2 <= parseInt((totalCount + pageSize - 1) / pageSize)) {
-                result.push( {text: nowPage + 2, page: nowPage + 2} )
+            if (nowPage + 2 <= parseInt((totalCount + pageSize - 1) / pageSize)) {
+                result.push({ text: nowPage + 2, page: nowPage + 2 })
             }
 
-            result.push( {text: ">>", page: nowPage + 2} )
+            result.push({ text: ">>", page: nowPage + 2 })
 
             this.pageNumList = result;
             return result;
@@ -125,6 +169,6 @@ var articleList = new Vue({
     },
 
     created: function() {
-        this.getPage( this.page, this.pageSize );
+        this.getPage(this.page, this.pageSize);
     }
 })

@@ -50,6 +50,23 @@ function queryCommentsCountByBlogId( blogId, success ) {
     connection.end();
 }
 
+function queryNewComments( size, success ) {
+    var selectSql = "select * from comments order by id desc limit ?;";
+
+    var params = [size];
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(selectSql, params, function (error, result) {
+        if(error == null) {
+            success(result)
+        }else {
+            console.log(error)
+        }
+    });
+    connection.end();
+}
+
 module.exports.insertComment = insertComment;
 module.exports.queryCommentsByBlogId = queryCommentsByBlogId;
 module.exports.queryCommentsCountByBlogId = queryCommentsCountByBlogId;
+module.exports.queryNewComments = queryNewComments;

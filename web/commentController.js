@@ -47,8 +47,17 @@ function queryCommentsCountByBlogId( request, response ) {
     })
 }
 
+function queryNewComments( request, response ) {
+    commentDao.queryNewComments( 10, function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult("success", "查询成功", result));
+        response.end();
+    })
+}
+
 path.set("/addComment", addComment);
 path.set("/queryRandomCode", queryRandomCode);
-path.set("/queryCommentsByBlogId", queryCommentsByBlogId)
-path.set("/queryCommentsCountByBlogId", queryCommentsCountByBlogId)
+path.set("/queryCommentsByBlogId", queryCommentsByBlogId);
+path.set("/queryCommentsCountByBlogId", queryCommentsCountByBlogId);
+path.set("/queryNewComments", queryNewComments);
 module.exports.path = path;

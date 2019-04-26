@@ -1,7 +1,7 @@
 var randomTags = new Vue({
     el: "#random_tags",
     data: {
-        tags: ['python', '指针', 'C语言', 'python', '指针', 'C语言', 'python', '指针', 'C语言', 'python', '指针', 'C语言', 'python', '指针', 'C语言', 'python', '指针', 'C语言']
+        tags: []
     },
     computed: {
         randomColor: function () {
@@ -21,7 +21,19 @@ var randomTags = new Vue({
         }
     },
     created: function() {
-
+        this.tags = [];
+        axios({
+            method: "get",
+            url: "/queryRandomTags"
+        }).then( resp => {
+            var tmp = []
+            resp.data.data.forEach( (item, index) => {
+                tmp.push({text: item.tag, link: "/?tag=" + item.tag})
+            })
+            this.tags = tmp;
+        }).catch( err => {
+            console.log(err);
+        })
     }
 });
 
@@ -29,17 +41,25 @@ var randomTags = new Vue({
 var newHot = new Vue({
     el: "#new_hot",
     data: {
-        titleList: [
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"},
-            {title: "查看你的AWS服务器已使用流量", link: "http://www.baidu.com"}
-        ]
+        titleList: []
+    },
+    created: function () {
+        axios({
+            method: "get",
+            url: "/queryHotBlog"
+        }).then( resp => {
+            // console.log(resp)
+            var tmp = [];
+            resp.data.data.forEach( item => {
+                var obj = {};
+                obj.title = item.title;
+                obj.link = "/blog_detail.html?bid=" + item.id;
+                tmp.push(obj);
+            })
+            this.titleList = tmp;
+        }).catch( error => {
+            console.log( error );
+        })
     }
 });
 
@@ -47,15 +67,26 @@ var newComments= new Vue({
     el: "#new_comments",
     data: {
         commentList: [
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"},
-            {name: "杰西", date: "2018-10-10", comment: "站长可以加个友链么，我新站，刚出来没"}
+            
         ]
+    },
+    created: function () {
+        this.commentList = [];
+        axios({
+            method: "get",
+            url: "/queryNewComments"
+        }).then( resp => {
+            var tmp = [];
+            resp.data.data.forEach( item => {
+                var obj = {};
+                obj.name = item.user_name;
+                obj.date = item.ctime;
+                obj.comment = item.comments;
+                tmp.push(obj);
+            })
+            this.commentList = tmp;
+        }).catch( error => {
+            console.log(error);
+        })
     }
 });

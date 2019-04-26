@@ -1,55 +1,3 @@
-var blogDetail = new Vue({
-    el: "#blog_detail",
-    data: {
-        title: "",
-        content: "",
-        ctime: "",
-        tags: "",
-        views: ""
-    },
-
-    computed: {
-
-    },
-    
-    created: function () {
-        
-        var searchUrlParams = location.search.indexOf("?") > -1 ? location.search.split("?")[1].split("&") : "";
-        if(searchUrlParams == ""){
-            return;
-        }
-
-        var bid = -10;
-        for( var i = 0; i < searchUrlParams.length; i++ ) {
-            if( searchUrlParams[i].split("=")[0] == "bid") {
-                try {
-                    bid = parseInt(searchUrlParams[i].split("=")[1])
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        }
-
-        if( bid > -1) {
-            axios({
-                method: "get",
-                url: "/queryBlogById?bid=" + bid
-            }).then( resp => {
-                var result = resp.data.data[0];
-                this.title = result.title;
-                this.content = result.content
-                this.ctime = result.ctime
-                this.tags = result.tags
-                this.views = result.views
-            }).catch( err => {
-                console.log("请求错误")
-            })
-        }
-
-        
-    }
-})
-
 var sendComment= new Vue({
     el: "#send_comment",
     data: {
@@ -75,27 +23,13 @@ var sendComment= new Vue({
         sendComment: function () {
             return function () {
                 var code = document.getElementById("comment_code").value.toUpperCase();
-                console.log(this.rightCode)
                 if( code != this.rightCode ) {
                     alert("验证码有误");
                     this.changeCode()
                     return;
                 }
-                var searchUrlParams = location.search.indexOf("?") > -1 ? location.search.split("?")[1].split("&") : "";
-                if(searchUrlParams == ""){
-                    return;
-                }
 
-                var bid = -1;
-                for( var i = 0; i < searchUrlParams.length; i++ ) {
-                    if( searchUrlParams[i].split("=")[0] == "bid") {
-                        try {
-                            bid = parseInt(searchUrlParams[i].split("=")[1])
-                        } catch (error) {
-                            console.log(error)
-                        }
-                    }
-                }
+                var bid = -2;
 
                 var reply = document.getElementById("comment_reply").value;
                 var replyName = document.getElementById("comment_reply_name").value;
@@ -124,7 +58,6 @@ var sendComment= new Vue({
     }
 });
 
-
 var blogComment = new Vue({
     el: "#blog_comment",
     data: {
@@ -146,21 +79,8 @@ var blogComment = new Vue({
         }
     },
     created: function () {
-        var searchUrlParams = location.search.indexOf("?") > -1 ? location.search.split("?")[1].split("&") : "";
-        if(searchUrlParams == ""){
-            return;
-        }
 
-        var bid = -10;
-        for( var i = 0; i < searchUrlParams.length; i++ ) {
-            if( searchUrlParams[i].split("=")[0] == "bid") {
-                try {
-                    bid = parseInt(searchUrlParams[i].split("=")[1])
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        }
+        var bid = -2;
 
         this.comments = [];
         this.total = 0;
@@ -169,7 +89,6 @@ var blogComment = new Vue({
             url: "/queryCommentsByBlogId?bid=" + bid
         }).then( resp => {
             this.comments = resp.data.data;
-            // this.total = resp.data.data.length;
             resp.data.data.forEach( (item, index) => {
                 if( item.parent > -1 ) {
                     this.comments[index].options = "回复@" + item.parent_name

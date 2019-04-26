@@ -43,13 +43,6 @@
 
                 <div class="page-tool">
                     <ul>
-                        <!-- <li>&lt;&lt;</li>
-                        <li class="active">1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>&gt;&gt;</li> -->
                         <li v-for="pageNum in generatePageTool" v-on:click="jumpTo(pageNum.page)" v-bind:class="{active: pageNum.text == page}">{{pageNum.text}}</li>
                     </ul>
                 </div>
@@ -59,8 +52,10 @@
             <div class="right-moodule" id="random_tags">
                 <div class="right-title">随机标签云</div>
                 <div>
-                    <a href="/" v-for="(tag, index) in tags" :key="tag + index"
-                        v-bind:style="{color: randomColor(),fontSize: randomSize()}">{{ tag }}</a>
+                    <a  v-for="(tag, index) in tags" 
+                        :key="tag.text + index"
+                        v-bind:style="{color: randomColor(),fontSize: randomSize()}"
+                        v-bind:href="tag.link" >{{ tag.text }}</a>
                 </div>
             </div>
 
